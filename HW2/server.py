@@ -26,17 +26,15 @@ def connect_to_load_balancer(host, port):
                     if not data:
                         break
                     elif data == RequestType.CONNECTION_TEST.value:
-                        print("Received connection check from client")
                         conn.sendall(ResponeType.OK.value.encode())
                     else:
                         try:
                             item = int(data)
-                            print(f"It's instance number {item}")
-                            conn.sendall(ResponeType.OK.value.encode())
+                            print(f"Received item={item} from client")
+                            conn.sendall(f"Received item={item}".encode())
                         except ValueError:
                             conn.sendall(ResponeType.INVALID_REQUEST.value.encode())
                             print("Invalid data received from client:", data)
 
 connect_to_load_balancer(HOST, PORT)
-
 print(f"server={(HOST, PORT)} is down now.")
